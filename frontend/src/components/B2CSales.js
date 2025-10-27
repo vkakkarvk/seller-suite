@@ -20,7 +20,8 @@ import {
 import { useDropzone } from 'react-dropzone';
 import axios from 'axios';
 
-const API_BASE_URL = 'http://localhost:5000/api';
+// Get API URL from environment variable (for production) or use localhost (for development)
+const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000/api';
 
 function B2CSales() {
   const [portal, setPortal] = useState('amazon');
