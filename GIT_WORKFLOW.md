@@ -109,6 +109,82 @@ git commit -m "Your message"
 git push
 ```
 
+## Undo / Recovery Guide
+
+### 🔙 Scenario 1: Undo uncommitted changes to a file
+```bash
+git restore filename.js           # Undo changes to specific file
+git restore .                     # Undo ALL uncommitted changes
+```
+
+### 🔙 Scenario 2: Unstage a file (remove from commit)
+```bash
+git restore --staged filename.js  # Unstage file, keep changes
+```
+
+### 🔙 Scenario 3: Undo last commit (keep changes)
+```bash
+git reset --soft HEAD~1          # Undo commit, keep changes staged
+git reset --mixed HEAD~1         # Undo commit, keep changes unstaged
+```
+
+### 🔙 Scenario 4: Undo last commit (discard changes)
+```bash
+git reset --hard HEAD~1          # ⚠️ WARNING: This discards changes!
+```
+
+### 🔙 Scenario 5: Undo multiple commits
+```bash
+git reset --soft HEAD~3          # Undo last 3 commits (keep changes)
+git reset --hard HEAD~3          # Undo last 3 commits (discard changes) ⚠️
+```
+
+### 🔙 Scenario 6: Already pushed to GitHub - fix commit message
+```bash
+git commit --amend -m "Fixed message"
+git push --force                  # ⚠️ This rewrites history!
+```
+
+### 🔙 Scenario 7: Already pushed to GitHub - remove last commit
+```bash
+git reset --soft HEAD~1          # Undo locally
+# Make corrections...
+git add .
+git commit -m "Corrected version"
+git push --force                  # ⚠️ This rewrites history!
+```
+
+### 🔙 Scenario 8: Want to see what changed in a file
+```bash
+git diff filename.js              # See changes in file
+git diff                          # See all changes
+git status                        # List changed files
+```
+
+### 🔙 Scenario 9: Recover a deleted file
+```bash
+git restore filename.js           # Restore from last commit
+git checkout HEAD -- filename.js  # Alternative method
+```
+
+### 🔙 Scenario 10: View commit history
+```bash
+git log --oneline                 # View commits
+git log --oneline -10             # Last 10 commits
+git log --all --graph             # Visual history
+```
+
+### ⚠️ Important Notes:
+- **`git push --force`** rewrites GitHub history - use carefully!
+- **`git reset --hard`** permanently deletes changes - use very carefully!
+- Always check `git status` before undoing anything
+- When in doubt, use `--soft` instead of `--hard`
+
+### 💡 Prevention Tips:
+- Commit often with small changes
+- Test before pushing
+- Use `git status` frequently to see what changed
+
 ## Daily Workflow
 
 **Morning:**
