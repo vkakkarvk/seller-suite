@@ -54,6 +54,8 @@ function B2CSales() {
       formData.append('file', file);
       formData.append('portal', portal);
 
+      console.log('Uploading to:', `${API_BASE_URL}/upload`);
+
       const response = await axios.post(`${API_BASE_URL}/upload`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
@@ -80,7 +82,12 @@ function B2CSales() {
         }
       }
     } catch (err) {
-      setError(err.response?.data?.error || 'Failed to upload file');
+      console.error('Upload error:', err);
+      console.error('Error response:', err.response);
+      console.error('Error message:', err.message);
+      const errorMessage = err.response?.data?.error || err.message || 'Failed to upload file';
+      console.error('Setting error:', errorMessage);
+      setError(errorMessage);
     } finally {
       setLoading(false);
     }
