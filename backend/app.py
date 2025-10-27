@@ -306,7 +306,14 @@ def parse_amazon_b2b(file_path):
             state_code = place_of_supply.split('-')[0] if place_of_supply and '-' in place_of_supply else ''
             
             # Get Rate and Taxable Value
-            rate = int(row.iloc[10] if len(row) > 10 else 0 or 0)  # Rate is column 10
+            rate_raw = row.iloc[10] if len(row) > 10 else 0
+            rate = float(rate_raw or 0)
+            
+            # If rate is a decimal (e.g., 0.18), convert to percentage (18)
+            if rate > 0 and rate < 1:
+                rate = rate * 100
+            rate = int(rate)
+            
             taxable_val = float(row.iloc[11] if len(row) > 11 else 0 or 0)  # Taxable Value is column 11
             
             # For IGST calculation - we'll use the rate from column 10 directly
